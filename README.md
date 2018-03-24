@@ -46,6 +46,8 @@ This image is customizable by these environmental variables:
 | **libkrb5-dev**, **libc-client-dev** | devtools especially for email |
 | **zlib1g-dev**               | compression library |
 | **libfreetype6-dev**, **libjpeg62-turbo-dev**, **libmcrypt-dev**, **libpng-dev** | simplify working with and on images |
+| **nodejs**                   | javascript development tools |
+| **composer**                 | php package manager |
 | **msmtp**, **msmtp-mta**     | simple and easy to use SMTP client replacing sendmail |
 | **libmcrypt-dev**, **libmcrypt4** | necessary for installation of mcrypt |
 

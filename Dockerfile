@@ -39,6 +39,16 @@ RUN apt-get -yq install -y --no-install-recommends \
 
 RUN pip install j2cli
 
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs
+
+# install composer
+COPY files/composer_install.sh /composer.sh
+RUN chmod a+x /composer.sh
+RUN /composer.sh
+RUN mv composer.phar /usr/local/bin/composer
+RUN rm -f /composer.sh
+
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" || true
 
 # install php libraries
