@@ -19,6 +19,7 @@ This image is customizable by these environmental variables:
 | **APACHE\_WORKDIR**   | */var/www/html*       | yes                | home folder of apache web application |
 | **APACHE\_LOG\_DIR**  | */var/log/apache2*    | yes                | folder for log files of apache |
 | **APACHE\_PUBLIC\_DIR** | **$APACHE\_WORKDIR** | yes               | folder used within apache configuration to be published – can be usefull if i.e. subfolder `public` of webproject should be exposed |
+| **PHP_XDEBUG**        | *0*                   | yes                | You can use this to enable xdebug. start-apache2 script will enable xdebug if **PHP_XDEBUG** is set to *1* |
 | **WORKINGUSER**       | *www-data*            | no                 | user that works as apache user – not implemented changable |
 | **TERM**              | *xterm*               | no                 | set terminal type – default *xterm* provides 16 colors |
 | **DEBIAN\_FRONTEND**  | *noninteractive*      | no                 | set frontent to use – default self-explaining  |

@@ -8,6 +8,7 @@ ENV WORKINGUSER www-data
 ENV PHP_TIMEZONE "Europe/Berlin"
 ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_WORKDIR /var/www/html
+ENV PHP_XDEBUG 0
 
 # expose ports
 EXPOSE 80
@@ -51,6 +52,12 @@ RUN docker-php-ext-install -j$(nproc) gd exif
 
 # enable php modules
 RUN a2enmod rewrite
+
+# install xdebug
+COPY files/bin/docker-php-pecl-install /usr/local/bin/
+RUN chmod a+x /usr/local/bin/docker-php-pecl-install
+RUN docker-php-pecl-install xdebug-2.5.5 && \
+    rm ${PHP_INI_DIR}/conf.d/docker-php-pecl-xdebug.ini
 
 # copy files
 COPY files/boot.sh /boot.sh
