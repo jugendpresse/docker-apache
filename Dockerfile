@@ -33,6 +33,7 @@ RUN apt-get -yq install -y --no-install-recommends \
            mysql-client postgresql-client sqlite3 libsqlite3-dev libpq-dev \
            libkrb5-dev libc-client-dev \
            zlib1g-dev \
+           msmtp msmtp-mta \
            libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev \
            libmcrypt-dev libmcrypt4
 

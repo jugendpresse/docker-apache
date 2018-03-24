@@ -20,6 +20,10 @@ if [ -z ${WWW_GID+x} ]; then WWW_GID="$(id -g $WORKINGGROUP)"; export WWW_GID; f
 grep -x "$WWW_UID" <<< "$(cat /etc/passwd | awk -F: '{print $3}' | sort -n)" > /dev/null || usermod -u $WWW_UID $WORKINGUSER
 grep -x "$WWW_GID" <<< "$(cat /etc/group | awk -F: '{print $3}' | sort -n)" > /dev/null || groupmod -g $WWW_GID $WORKINGGROUP
 
+if [ ! -z ${SMTP_HOST+x} ] && [ ! -z ${SMTP_FROM+x} ] && [ ! -z ${SMTP_PASS+x} ]; then
+    j2 /templates/msmtprc.j2 > /etc/msmtprc
+fi
+
 
 ###
 ## check permissions with all relevant folders

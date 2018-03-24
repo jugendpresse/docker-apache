@@ -20,6 +20,11 @@ This image is customizable by these environmental variables:
 | **APACHE\_LOG\_DIR**  | */var/log/apache2*    | yes                | folder for log files of apache |
 | **APACHE\_PUBLIC\_DIR** | **$APACHE\_WORKDIR** | yes               | folder used within apache configuration to be published – can be usefull if i.e. subfolder `public` of webproject should be exposed |
 | **PHP_XDEBUG**        | *0*                   | yes                | You can use this to enable xdebug. start-apache2 script will enable xdebug if **PHP_XDEBUG** is set to *1* |
+| **SMTP\_HOST**        |  | yes                | should be set to your smtp host, i.e. `mail.example.com` |
+| **SMTP\_PORT**        |  | yes                | defaults to `587` |
+| **SMTP\_FROM**        |  | yes                | should be set to your sending from address, i.e. `motiontool@example.com` |
+| **SMTP\_USER**        |  | yes                | defaults to `SMTP_FROM` and has to be the user, you are authenticating on the **SMTP_HOST** |
+| **SMTP\_PASS**        |  | yes                | should be set to your plaintext(!) smtp password, i.e. `I'am very Secr3t!` |
 | **WORKINGUSER**       | *www-data*            | no                 | user that works as apache user – not implemented changable |
 | **TERM**              | *xterm*               | no                 | set terminal type – default *xterm* provides 16 colors |
 | **DEBIAN\_FRONTEND**  | *noninteractive*      | no                 | set frontent to use – default self-explaining  |
@@ -41,6 +46,7 @@ This image is customizable by these environmental variables:
 | **libkrb5-dev**, **libc-client-dev** | devtools especially for email |
 | **zlib1g-dev**               | compression library |
 | **libfreetype6-dev**, **libjpeg62-turbo-dev**, **libmcrypt-dev**, **libpng-dev** | simplify working with and on images |
+| **msmtp**, **msmtp-mta**     | simple and easy to use SMTP client replacing sendmail |
 | **libmcrypt-dev**, **libmcrypt4** | necessary for installation of mcrypt |
 
 ## PHP Libraries installed
