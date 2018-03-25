@@ -49,7 +49,6 @@ This image is customizable by these environmental variables:
 | **nodejs**                   | javascript development tools |
 | **composer**                 | php package manager |
 | **msmtp**, **msmtp-mta**     | simple and easy to use SMTP client replacing sendmail |
-| **libmcrypt-dev**, **libmcrypt4** | necessary for installation of mcrypt |
 
 ## PHP Libraries installed
 

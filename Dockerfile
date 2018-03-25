@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:7.2-apache
 MAINTAINER Martin Winter
 
 # environmental variables
@@ -30,12 +30,11 @@ RUN apt-get -yq install -y --no-install-recommends \
            supervisor \
            gnupg openssl \
            curl wget \
-           mysql-client postgresql-client sqlite3 libsqlite3-dev libpq-dev \
+           mysql-client sqlite3 libsqlite3-dev libpq-dev \
            libkrb5-dev libc-client-dev \
            zlib1g-dev \
            msmtp msmtp-mta \
-           libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev \
-           libmcrypt-dev libmcrypt4
+           libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev
 
 RUN pip install j2cli
 
@@ -52,7 +51,7 @@ RUN rm -f /composer.sh
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" || true
 
 # install php libraries
-RUN docker-php-ext-install -j$(nproc) mcrypt
+RUN pecl install mcrypt-1.0.1
 RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_sqlite
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 RUN docker-php-ext-install pgsql pdo_pgsql
@@ -67,7 +66,7 @@ RUN a2enmod rewrite
 # install xdebug
 COPY files/bin/docker-php-pecl-install /usr/local/bin/
 RUN chmod a+x /usr/local/bin/docker-php-pecl-install
-RUN docker-php-pecl-install xdebug-2.5.5 && \
+RUN docker-php-pecl-install xdebug && \
     rm ${PHP_INI_DIR}/conf.d/docker-php-pecl-xdebug.ini
 
 # copy files
