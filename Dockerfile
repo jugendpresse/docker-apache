@@ -86,9 +86,6 @@ RUN rm -r /var/lib/apt/lists/*
 # copy templates
 COPY files/templates/* /templates/
 
-# declare volume for usage with docker volumes
-VOLUME ["$APACHE_WORKDIR"]
-
 # run on every (re)start of container
 ENTRYPOINT ["entrypoint"]
 CMD ["apache2-foreground"]
