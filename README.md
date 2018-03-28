@@ -1,7 +1,7 @@
 # Apache Base Image
-## Provisioned by @macwinnie
+## Provisioned by @jugendpresse
 
-Docker images provided within this repository are built on the needs of @macwinnie.
+Docker images provided within this repository are built on the needs of @jugendpresse.
 
 Base-usage is to provide a as far as possible customizable Apache Webserver for (almost) every PHP-Application.
 
@@ -113,3 +113,4 @@ The apache config used within containers of this image. It will be provisioned a
 ## Contribution guidelines
 
 This Repository is Creative Commons non Commercial - You can contribute by forking and using pull requests. The team will review them asap.
+Basic structure by @macwinnie.
