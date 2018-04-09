@@ -71,10 +71,7 @@ RUN docker-php-pecl-install xdebug && \
 
 # copy files
 COPY files/boot.sh /boot.sh
-RUN chmod a+x /boot.sh
-
 COPY files/entrypoint /usr/local/bin/
-
 RUN chmod a+x /boot.sh /usr/local/bin/entrypoint
 
 # prepare docker image as small as possible
