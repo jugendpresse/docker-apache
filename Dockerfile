@@ -9,6 +9,9 @@ ENV PHP_TIMEZONE "Europe/Berlin"
 ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_WORKDIR /var/www/html
 ENV PHP_XDEBUG 0
+ENV YESWWW false
+ENV NOWWW false
+ENV HTTPS true
 
 # expose ports
 EXPOSE 80

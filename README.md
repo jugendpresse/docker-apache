@@ -20,6 +20,9 @@ This image is customizable by these environmental variables:
 | **APACHE\_LOG\_DIR**  | */var/log/apache2*    | yes                | folder for log files of apache |
 | **APACHE\_PUBLIC\_DIR** | **$APACHE\_WORKDIR** | yes               | folder used within apache configuration to be published – can be usefull if i.e. subfolder `public` of webproject should be exposed |
 | **PHP_XDEBUG**        | *0*                   | yes                | You can use this to enable xdebug. start-apache2 script will enable xdebug if **PHP_XDEBUG** is set to *1* |
+| **YESWWW**            | false                 | yes                | Duplicate content has to be avoided – therefore a decision for containers delivering content of `www.domain.tld` and `domain.tld` has to be made which one should be the mainly used one. **YESWWW** will be overridden by **NOWWW** if both are true. |
+| **NOWWW**             | false                 | yes                | See **YESWWW** |
+| **HTTPS**             | true                  | yes                | relevant for **YESWWW** and **NOWWW** since config rules have to be adjusted. |
 | **SMTP\_HOST**        |  | yes                | should be set to your smtp host, i.e. `mail.example.com` |
 | **SMTP\_PORT**        |  | yes                | defaults to `587` |
 | **SMTP\_FROM**        |  | yes                | should be set to your sending from address, i.e. `motiontool@example.com` |
