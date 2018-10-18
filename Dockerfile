@@ -38,6 +38,8 @@ RUN apt-get -yq install -y --no-install-recommends \
            mysql-client sqlite3 libsqlite3-dev libpq-dev \
            libkrb5-dev libc-client-dev \
            zlib1g-dev \
+           libicu-dev g++ \
+           zip unzip \
            msmtp msmtp-mta \
            libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev
 
@@ -53,6 +55,13 @@ RUN /composer.sh
 RUN mv composer.phar /usr/local/bin/composer
 RUN rm -f /composer.sh
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN set -eux; \
+    composer global require "hirak/prestissimo:^0.3" --prefer-dist --no-progress --no-suggest --classmap-authoritative; \
+    composer clear-cache
+ENV PATH="${PATH}:/root/.composer/vendor/bin"
+ENV COMPOSER_ALLOW_SUPERUSER 0
+
 RUN sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" || true
 
 # install php libraries
@@ -62,7 +71,7 @@ RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_sqlite
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 RUN docker-php-ext-install pgsql pdo_pgsql
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
-RUN docker-php-ext-install -j$(nproc) imap zip
+RUN docker-php-ext-install -j$(nproc) intl imap zip
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install -j$(nproc) gd exif
 
