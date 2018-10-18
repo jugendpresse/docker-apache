@@ -114,5 +114,6 @@ if [ "$ENV" = "dev" ]; then
     echo Using PHP production mode
 else
     echo Using PHP development mode
-    echo "error_reporting = E_ERROR | E_WARNING | E_PARSE\ndisplay_errors = On" > /usr/local/etc/php/conf.d/php.ini
+    echo "error_reporting = E_ERROR | E_WARNING | E_PARSE" > /usr/local/etc/php/conf.d/php.ini
+    echo "display_errors = On" >> /usr/local/etc/php/conf.d/php.ini
 fi
