@@ -28,6 +28,8 @@ RUN apt-get -yq install -y --no-install-recommends \
            python-setuptools python-pip python-pkg-resources \
            python-jinja2 \
            python-yaml python-paramiko \
+           python-httplib2 \
+           python-keyczar \
            vim nano \
            htop tree tmux screen sudo git zsh ssh screen \
            supervisor \
@@ -64,8 +66,9 @@ RUN docker-php-ext-install -j$(nproc) imap zip
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install -j$(nproc) gd exif
 
-# enable php modules
-RUN a2enmod rewrite
+RUN apt-get -yq install -y --no-install-recommends libldap2-dev
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/
+RUN docker-php-ext-install -j$(nproc) ldap
 
 # install xdebug
 COPY files/bin/docker-php-pecl-install /usr/local/bin/
@@ -77,6 +80,7 @@ RUN docker-php-pecl-install xdebug && \
 COPY files/boot.sh /boot.sh
 COPY files/entrypoint /usr/local/bin/
 RUN chmod a+x /boot.sh /usr/local/bin/entrypoint
+RUN mkdir /boot.d
 
 # prepare docker image as small as possible
 RUN apt-get clean
@@ -86,6 +90,12 @@ RUN rm -r /var/lib/apt/lists/*
 
 # copy templates
 COPY files/templates/* /templates/
+
+RUN sed -i 's/ServerSignature On/ServerSignature\ Off/' /etc/apache2/conf-enabled/security.conf
+RUN sed -i 's/ServerTokens\ OS/ServerTokens Prod/' /etc/apache2/conf-enabled/security.conf
+
+# enable php modules
+RUN a2enmod rewrite
 
 # run on every (re)start of container
 ENTRYPOINT ["entrypoint"]
