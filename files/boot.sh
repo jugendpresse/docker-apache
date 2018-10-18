@@ -51,7 +51,7 @@ if [ -e $timezone_file ]; then
     if [ ! -f "$time_ini" ]; then
         echo "$time_ini_setting" > $time_ini
     else
-        sed -c -i "s/\(date.timezone *= *\).*/\1$time_ini_setting/" $time_ini
+        grep -q 'date.timezone *= *.*' $time_ini && sed -E -i "s~date.timezone *= *.*~$time_ini_setting~" $time_ini || echo "$time_ini_setting" >> $time_ini
     fi
 fi
 
@@ -81,6 +81,28 @@ elif [[ -f "${xdebug_ini}" ]]; then
 
     rm -rf $xdebug_ini
 
+fi
+
+###
+## install additional apache2 modules if defined
+###
+
+if ! [ -z "$MODS" ] ; then
+    for i in $MODS ; do
+        a2enmod $i
+    done
+fi | grep -q "service apache2 restart" && service apache2 restart
+
+
+###
+## additional bootup things
+###
+
+bootpath='/boot.d/*.sh'
+count=`ls -1 ${bootpath} 2>/dev/null | wc -l`
+if [ $count != 0 ]; then
+    chmod a+x ${bootpath}
+    for f in ${bootpath}; do source $f; done
 fi
 
 
