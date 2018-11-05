@@ -32,7 +32,7 @@ RUN apt-get -yq install -y --no-install-recommends \
            python-keyczar \
            vim nano \
            htop tree tmux screen sudo git zsh ssh screen \
-           supervisor \
+           supervisor expect \
            gnupg openssl \
            curl wget \
            mysql-client sqlite3 libsqlite3-dev libpq-dev \
@@ -70,6 +70,7 @@ RUN docker-php-ext-install -j$(nproc) mysqli
 RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_sqlite
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 RUN docker-php-ext-install pgsql pdo_pgsql
+RUN docker-php-ext-install calendar && docker-php-ext-configure calendar
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-install -j$(nproc) intl imap zip
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/

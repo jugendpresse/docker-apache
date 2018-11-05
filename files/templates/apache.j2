@@ -1,4 +1,9 @@
 <VirtualHost *:80>
+    
+    <DirectoryMatch "^/.*/\.git/">
+        Order deny,allow
+        Deny from all
+    </DirectoryMatch>
 
     ServerAdmin root
     DocumentRoot {{ APACHE_PUBLIC_DIR | default(APACHE_WORKDIR) }}

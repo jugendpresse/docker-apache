@@ -28,6 +28,15 @@ This image is customizable by these environmental variables:
 | **SMTP\_FROM**        |  | yes                | should be set to your sending from address, i.e. `motiontool@example.com` |
 | **SMTP\_USER**        |  | yes                | defaults to `SMTP_FROM` and has to be the user, you are authenticating on the **SMTP_HOST** |
 | **SMTP\_PASS**        |  | yes                | should be set to your plaintext(!) smtp password, i.e. `I'am very Secr3t!` |
+| **MODS**              |                       | no                 | space separated list of PHP modules to be enabled on boot – modules have to be installed (i.e. through a special bootup script within `/boot.d/`-folder) |
+| **YESWWW**            | false                 | yes                | Duplicate content has to be avoided – therefore a decision for containers delivering content of `www.domain.tld` and `domain.tld` has to be made which one should be the mainly used one. **YESWWW** will be overridden by **NOWWW** if both are true. |
+| **NOWWW**             | false                 | yes                | See **YESWWW** |
+| **HTTPS**             | true                  | yes                | relevant for **YESWWW** and **NOWWW** since config rules have to be adjusted. |
+| **SMTP\_HOST**        |                       | yes                | should be set to your smtp host, i.e. `mail.example.com` |
+| **SMTP\_PORT**        |                       | yes                | defaults to `587` |
+| **SMTP\_FROM**        |                       | yes                | should be set to your sending from address, i.e. `motiontool@example.com` |
+| **SMTP\_USER**        |                       | yes                | defaults to `SMTP_FROM` and has to be the user, you are authenticating on the **SMTP_HOST** |
+| **SMTP\_PASS**        |                       | yes                | should be set to your plaintext(!) smtp password, i.e. `I'm very Secr3t!` |
 | **WORKINGUSER**       | *www-data*            | no                 | user that works as apache user – not implemented changable |
 | **TERM**              | *xterm*               | no                 | set terminal type – default *xterm* provides 16 colors |
 | **DEBIAN\_FRONTEND**  | *noninteractive*      | no                 | set frontent to use – default self-explaining  |
@@ -41,6 +50,8 @@ This image is customizable by these environmental variables:
 | **python-setuptools**, **python-pip**, **python-pkg-resources** | simplify python installations |
 | **python-jinja2**, **j2cli** | used for template provisioning |
 | **python-yaml**, **python-paramiko** | provision Image for further provisioning via Ansible | **vim**, **nano**            | editors |
+| **python-httplib2**            | Small, fast HTTP client library for Python |
+| **python-keyczar**             | Toolkit for safe and simple cryptography |
 | **htop**, **tree**, **tmux**, **screen**, **sudo**, **git**, **zsh**, **ssh**, **screen** | usefull ops tools – oh-my-zsh is installed further|
 | **supervisor**               | process manager that allows to manage long-running programs |
 | **gnupg**, **openssl**       | encryption tools |
@@ -61,7 +72,11 @@ This image is customizable by these environmental variables:
 
 **rewrite**
 
-## Files to be aware of
+## Files and directories to be aware of
+
+### `/boot.d/` – direcotry for additional scripts on bootup
+
+If you want to do the container sth on bootup, this folder is the location to place your `*.sh`-files.
 
 ### `/templates/apache.j2` – the Apache Config
 
