@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-    
+
     <DirectoryMatch "^/.*/\.git/">
         Order deny,allow
         Deny from all
@@ -19,11 +19,6 @@
     <FilesMatch "^\.ht">
         Require all denied
     </FilesMatch>
-
-    <DirectoryMatch "^/.*/\.git/">
-        Order deny,allow
-        Deny from all
-    </DirectoryMatch>
 
     LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
     LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
@@ -58,4 +53,5 @@
         RewriteRule ^(.*)$ http{% if HTTPS|lower == 'true' %}s{% endif %}://www.%{HTTP_HOST}/$1 [L,R=301]
     </IfModule>
     {% endif %}
+
 </VirtualHost>
