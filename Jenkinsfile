@@ -2,10 +2,10 @@ node {
 
     def built_image
 
-    def baseimage = 'php:7.2-apache'
+    def baseimage = 'php:7.4-apache'
 
     def image = 'jugendpresse/apache'
-    def version = 'php-7.2'
+    def version = 'php-7.4'
 
     def old_layers
     def new_layers
