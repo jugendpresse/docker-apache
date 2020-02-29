@@ -22,6 +22,8 @@ EXPOSE 443
 # copy all relevant files
 ## Additional Install-Scripts
 COPY files/installscripts /DockerInstall/
+## Additional boot files
+COPY files/bootscripts /boot.d/
 ## composer install
 COPY files/composer_install.sh /composer.sh
 ## xdebug
@@ -34,7 +36,6 @@ COPY files/entrypoint /usr/local/bin/
 
 # organise file permissions
 RUN chmod a+x /DockerInstall/install.sh /boot.sh /usr/local/bin/entrypoint
-RUN mkdir /boot.d
 
 # run installer
 RUN /DockerInstall/install.sh

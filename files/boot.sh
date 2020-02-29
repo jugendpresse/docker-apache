@@ -117,3 +117,12 @@ else
     echo "error_reporting = E_ERROR | E_WARNING | E_PARSE" > /usr/local/etc/php/conf.d/php.ini
     echo "display_errors = On" >> /usr/local/etc/php/conf.d/php.ini
 fi
+
+###
+## php.ini enhancements
+###
+if [ "$PHPINI" != "" ]; then
+    initscript="/boot.d/inibuild.php"
+    chmod a+x ${initscript}
+    ${initscript} $PHPINI >> /usr/local/etc/php/conf.d/php_env.ini
+fi
