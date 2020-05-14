@@ -3,9 +3,11 @@ node {
     def built_image
 
     def baseimage = 'php:7.4-apache'
-
-    def image = 'jugendpresse/apache'
-    def version = 'php-7.4'
+    
+    def version   = 'php-7.4'
+    def latest    = true
+    
+    def image     = 'jugendpresse/apache'
 
     def old_layers
     def new_layers
@@ -54,6 +56,9 @@ node {
                     def date = new Date().format( 'yyyyMMdd-HHmm' )
                     built_image.push()
                     built_image.push( date )
+                    if ( latest ) {
+                        built_image.push( 'latest' )
+                    }
                 }
             }
         }
