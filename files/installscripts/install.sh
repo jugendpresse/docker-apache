@@ -3,7 +3,7 @@
 # upgrade and install applets and services
 apt-get update
 apt-get -yq install -y --no-install-recommends \
-           software-properties-common procps apt-get-utils
+           software-properties-common procps apt-utils
 
 apt-get update -q --fix-missing
 apt-get -yq upgrade
@@ -11,6 +11,7 @@ apt-get -yq install -y --no-install-recommends \
             python-setuptools python-pip python-pkg-resources \
             python-jinja2 python-yaml \
             vim nano \
+            libmagickwand-dev g++ \
             htop tree tmux screen sudo git zsh ssh screen \
             supervisor expect \
             gnupg openssl \
@@ -19,7 +20,7 @@ apt-get -yq install -y --no-install-recommends \
             libkrb5-dev libc-client-dev \
             zlib1g-dev \
             msmtp msmtp-mta \
-            libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libzip-dev libldap2-dev
+            libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libzip-dev libldap2-dev libicu-dev
 
 pip install j2cli
 
@@ -42,6 +43,8 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 # install php libraries
 pecl install mcrypt-1.0.1
 docker-php-ext-install -j$(nproc) mysqli zip
+pecl install imagick
+docker-php-ext-install -j$(nproc) imagick
 docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_sqlite
 docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 docker-php-ext-install pgsql pdo_pgsql
@@ -52,6 +55,8 @@ docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/u
 docker-php-ext-install -j$(nproc) gd exif
 docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/
 docker-php-ext-install -j$(nproc) ldap
+docker-php-ext-configure intl
+docker-php-ext-install intl
 
 # install xdebug
 chmod a+x /usr/local/bin/docker-php-pecl-install
@@ -73,7 +78,7 @@ fi
 apt-get -y clean
 apt-get -y autoclean
 apt-get -y autoremove
-rm -r /var/lib/apt-get/lists/*
+rm -r /var/lib/apt/lists/*
 
 # secure apache shoutouts
 sed -i 's/ServerSignature On/ServerSignature\ Off/' /etc/apache2/conf-enabled/security.conf
