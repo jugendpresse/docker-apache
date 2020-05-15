@@ -41,25 +41,25 @@ sudo -u$WORKINGUSER composer global require hirak/prestissimo
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" || true
 
 # install php libraries
-pecl install mcrypt-1.0.1
+chmod a+x /usr/local/bin/docker-php-pecl-install
 docker-php-ext-install -j$(nproc) mysqli zip
-pecl install imagick
-docker-php-ext-install -j$(nproc) imagick
 docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_sqlite
 docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 docker-php-ext-install pgsql pdo_pgsql
 docker-php-ext-install calendar && docker-php-ext-configure calendar
 docker-php-ext-configure imap --with-kerberos --with-imap-ssl
-docker-php-ext-install -j$(nproc) imap zip
+docker-php-ext-install -j$(nproc) imap zip bcmath
 docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-docker-php-ext-install -j$(nproc) gd exif
+docker-php-ext-install -j$(nproc) gd exif fileinfo
 docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/
 docker-php-ext-install -j$(nproc) ldap
 docker-php-ext-configure intl
 docker-php-ext-install intl
+docker-php-pecl-install install mcrypt-1.0.1
+docker-php-pecl-install install imagick
+docker-php-ext-enable imagick
 
 # install xdebug
-chmod a+x /usr/local/bin/docker-php-pecl-install
 docker-php-pecl-install xdebug
 rm ${PHP_INI_DIR}/conf.d/docker-php-pecl-xdebug.ini
 
