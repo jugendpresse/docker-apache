@@ -54,4 +54,6 @@
     </IfModule>
     {% endif %}
 
+    {{ APACHE_ADDITIONAL | default ('') }}
+
 </VirtualHost>
