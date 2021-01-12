@@ -8,24 +8,47 @@ apt-get -yq install -y --no-install-recommends \
 apt-get update -q --fix-missing
 apt-get -yq upgrade
 apt-get -yq install -y --no-install-recommends \
-            python-setuptools python-pip python-pkg-resources \
-            python-jinja2 python-yaml \
-            vim nano \
-            libmagickwand-dev g++ \
-            htop tree tmux screen sudo git zsh ssh screen \
-            supervisor expect \
-            gnupg openssl \
-            curl wget unzip \
-            default-mysql-client sqlite3 libsqlite3-dev libpq-dev \
-            libkrb5-dev libc-client-dev \
-            zlib1g-dev \
-            msmtp msmtp-mta \
-            libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libzip-dev libldap2-dev libicu-dev
+        python-setuptools python-pip python-pkg-resources \
+        python-jinja2 python-yaml \
+        vim nano \
+        htop tree tmux screen sudo git zsh ssh screen \
+        supervisor expect \
+        gnupg openssl \
+        curl wget unzip \
+        default-mysql-client sqlite3 libsqlite3-dev libpq-dev \
+        libkrb5-dev libc-client-dev \
+        zlib1g-dev \
+        msmtp msmtp-mta \
+        locales locales-all \
+        cron \
+        libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libzip-dev libicu-dev openssl pkg-config liblasso3 libapache2-mod-auth-mellon
 
 pip install j2cli
 
 curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
 apt-get install -y nodejs
+
+# add aliases
+read -d '' bash_alias << 'EOF'
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+EOF
+
+echo "$bash_alias" >> /etc/bashrc
 
 # change user permissions
 chown -R $WORKINGUSER $( eval echo "~$WORKINGUSER" )
@@ -42,6 +65,7 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 
 # install php libraries
 chmod a+x /usr/local/bin/docker-php-pecl-install
+pecl install mcrypt-1.0.1
 docker-php-ext-install -j$(nproc) mysqli zip
 docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_sqlite
 docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
@@ -50,16 +74,9 @@ docker-php-ext-install calendar && docker-php-ext-configure calendar
 docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 docker-php-ext-install -j$(nproc) imap zip bcmath
 docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-docker-php-ext-install -j$(nproc) gd exif fileinfo
-docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/
-docker-php-ext-install -j$(nproc) ldap
-docker-php-ext-configure intl
-docker-php-ext-install intl
-docker-php-pecl-install install mcrypt-1.0.1
-docker-php-pecl-install install imagick
-docker-php-ext-enable imagick
 
 # install xdebug
+chmod a+x /usr/local/bin/docker-php-pecl-install
 docker-php-pecl-install xdebug
 rm ${PHP_INI_DIR}/conf.d/docker-php-pecl-xdebug.ini
 
@@ -89,3 +106,4 @@ a2enmod rewrite
 
 # CleanUp
 rm -rf /DockerInstall
+

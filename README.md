@@ -41,6 +41,8 @@ This image is customizable by these environmental variables:
 | **WORKINGUSER**       | *www-data*            | no                 | user that works as apache user – not implemented changable |
 | **TERM**              | *xterm*               | no                 | set terminal type – default *xterm* provides 16 colors |
 | **DEBIAN\_FRONTEND**  | *noninteractive*      | no                 | set frontent to use – default self-explaining  |
+| **START_CRON**        | *0*                   | if `cron` needed   | set to `1` if cron should be startet at boot of the container |
+| **CRON_PATH**         | */etc/cron.d/docker*  | no                 | path to default cron file that will be provided with the default crontab content, see below |
 
 
 ## Installed Tools
@@ -64,6 +66,7 @@ This image is customizable by these environmental variables:
 | **nodejs**                   | javascript development tools |
 | **composer**                 | php package manager |
 | **msmtp**, **msmtp-mta**     | simple and easy to use SMTP client replacing sendmail |
+| **cron**                     | recurring tasks – has to be activated by ENV variables |
 
 ## PHP Libraries installed
 
@@ -128,6 +131,45 @@ The apache config used within containers of this image. It will be provisioned a
 </VirtualHost>
 ```
 </details>
+
+### Default cron entries
+
+By default the `CRON_PATH` variable directs to `/etc/cron.d/docker`. *You should mount that file from your host data or a volume.*  
+If you mount an empty file for the beginning, that would be fine since if the file is empty at boot, the following default content with comments and description of the cron file will be provided into it:
+
+```sh
+# This crontab file holds commands for all users to be run by
+# cron. Each command is to be defined within a separate line.
+#
+# To define the time you can provide concrete (numeric) values,
+# comma separate them or use `*` to use any of the possible
+# values.
+# You can also use basic calculation - i.e. if you want to run
+# a job every 20th minute use `*/20`.
+#
+# The tasks will be started based on the system time and
+# timezone.
+#
+#
+# The example below would print a message to the STDOUT of the
+# docker container and - if any error does occur – the errors
+# will be printed to the STDERR of the container.
+#
+# Please be aware that you are locating the crontab file within
+# `/etc/cron.d` directory and for that there is also the need
+# to define the user who should run the cron command!
+#
+# ┌────────────────────────────────── minute (0-59)
+# │    ┌───────────────────────────── hour (0-23)
+# │    │    ┌──────────────────────── day (1-31)
+# │    │    │    ┌─────────────────── month (1-12)
+# │    │    │    │    ┌────────────── day of week (0-6, sunday equals 0)
+# │    │    │    │    │    ┌───────── user
+# │    │    │    │    │    │    ┌──── command
+# │    │    │    │    │    │    │
+# ┴    ┴    ┴    ┴    ┴    ┴    ┴
+# */20 *    *    *    *    root echo 'this is a demonstration cronjob'  1> /proc/1/fd/1  2> /proc/1/fd/2
+```
 
 ## Contribution guidelines
 
