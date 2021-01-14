@@ -23,9 +23,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push latest
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: jugendpresse/apache:latest
+
+      - name: Build and push 7
+        id: docker_build_7
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: jugendpresse/apache:php7
+          build-args: |
+            VERSION=7-apache
